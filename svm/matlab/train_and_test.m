@@ -1,6 +1,9 @@
 function [ test_labels, pred_labels ] = train_and_test( x, n, s, ratio)
 %UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%   x = time series
+%   n = feature size
+%   s = param string
+%   r = ratio
 
 %         -training_label_vector:
 %             An m by 1 vector of training labels (type must be double).

@@ -9,34 +9,50 @@
 prices = csvread('Gdax_BTCUSD_1h.csv', 2, 5);
 prices = prices(:,1);
 
-max_price = max(abs(prices));
-mean_price = mean(prices);
-
 n = 100;    %number of features
-m = 3000;   %number of training instances
+test_num = 2000; %test set size
+m = length(prices)-n-test_num;  %number of training instances
 
-test_num = 1000; %test set size
+[ all_set, all_labels, all_maxes, all_means ] = series2features( prices, n );
 
-train_set = zeros(m,n);
-train_labels = zeros(m,1);
+train_range = 1:m;
+test_range = m+1:length(all_labels);
 
-test_set = zeros(test_num,n);
-test_labels = zeros(test_num,1);
+train_set = all_set(train_range,n);
+train_labels = all_labels(train_range);
 
-for i = 1:m
-     train_set(i,:) = prices(i:i+n-1,1);
-     train_labels(i) = prices(i+n);
-end
+test_set = all_set(test_range,n);
+test_labels = all_labels(test_range);
 
-for i = 1:test_num
-    test_set(i,:) = prices(m+i:m+i+n-1);
-    test_labels(i) = prices(m+i+n);
-end
+s = '-s 3 -t 2 -c 100000';
+svm_model = libsvmtrain(train_labels, train_set, s);
+[test_pred_labels, test_accuracy, test_prob_estimates] = libsvmpredict(test_labels, test_set, svm_model);
+[train_pred_labels, train_accuracy, train_prob_estimates] = libsvmpredict(train_labels, train_set, svm_model);
 
-train_set = (train_set - mean_price)./max_price;
-train_labels = (train_labels - mean_price)./max_price;
-test_set = (test_set - mean_price)./max_price;
-test_labels = (test_labels - mean_price)./max_price;
+usd_test_labels = (test_labels + all_means(test_range)) .* all_maxes; 
+usd_train_labels = (train_labels + all_means(train_range)) .* all_maxes; 
+usd_test_pred_labels = (test_pred_labels + all_means(test_range)) .* all_maxes; 
+usd_train_pred_labels = (train_pred_labels + all_means(train_range)) .* all_maxes; 
 
-svm_model = libsvmtrain(train_labels, train_set, '-s 3 -t 2 ');
-[predicted_label, accuracy, prob_estimates] = libsvmpredict(test_labels, test_set, svm_model);
+figure(100);    clf;
+hold on;
+plot(test_range, test_labels);
+plot(test_range, test_pred_labels);
+plot(train_range, train_labels);
+plot(train_range, train_pred_labels);
+legend('actual test', 'prediction test', 'actual train', 'prediction train');
+title('test and train normalized');
+
+figure(101);    clf;
+hold on;
+plot(test_range, usd_test_labels);
+plot(test_range, usd_test_pred_labels);
+plot(train_range, usd_train_labels);
+plot(train_range, usd_train_pred_labels);
+title('test and train usd');
+
+test_error = sum(((test_labels-test_pred_labels)*all_maxes) .^2)/test_num 
+train_error = sum(((train_labels-train_pred_labels)*all_maxes) .^2)/m * all_maxes
+
+n
+s
