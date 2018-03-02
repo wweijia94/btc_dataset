@@ -18,6 +18,6 @@ instances = (instances./maxes) - means(:,ones(1,n));
 
 instances = (instances./maxes) - means(:,ones(1,n));
 labels = labels./maxes - means;
-
+instances = [means instances ];
 
 end
