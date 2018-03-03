@@ -15,15 +15,15 @@ prices = prices(:,1);
 % prices = sin(0.1.*t);
 
 % ns = [1 3 10 30 100];    %number of features
-ns = [10 30 100];
+ns = [3, 10, 30 100];
 test_num = 500; %test set size
 
 %costs = [0.01 0.1 1 10 100 1000];
-costs = [0.1 1 10 ];
+costs = [ 300 1000 10000];
 % gamma = [0.01 0.1 1 10 100] .* (1/n);
 %gamma = 1/n * [0.01 0.1 1 10 100];
 
-gamma = [0.1 1 10 ];
+gamma = [  0.1 1 10 ];
 
 test_errors = zeros([length(costs), length(gamma), length(ns)]);
 train_errors = zeros([length(costs), length(gamma), length(ns)]);
