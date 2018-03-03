@@ -8,37 +8,41 @@
 
 fig_count = 0;
 
-prices = csvread('Gdax_BTCUSD_1h.csv', 2, 5);
-prices = prices(:,1);
+raw_prices = csvread('Gdax_BTCUSD_1h.csv', 2, 2);
+low_prices = raw_prices(:,3);
+high_prices = raw_prices(:,2);
+avg_prices = (low_prices + high_prices)/2;
+prices = avg_prices(2:end,1) - avg_prices(1:end-1,1);
+%prices = (1:1500);
 % t = (1:4000)';
 % prices = randn(4000,1)+sin(0.001.*t)+0.001*t;
 % prices = sin(0.1.*t);
 
-% ns = [1 3 10 30 100];    %number of features
-ns = [3, 10, 30 100];
+% ns = [1 2 3 10 30 100];    %number of features
+ns = 2;
+%ns = [3 30 100];
+% ns = [100];
 test_num = 500; %test set size
 
-%costs = [0.01 0.1 1 10 100 1000];
-costs = [ 300 1000 10000];
-% gamma = [0.01 0.1 1 10 100] .* (1/n);
-%gamma = 1/n * [0.01 0.1 1 10 100];
+% costs = [ 0.1 1 10];
+costs = [ 1 ];
 
-gamma = [  0.1 1 10 ];
+% gamma = [  0.1 1 10];
+gamma = [ 1 ];
 
 test_errors = zeros([length(costs), length(gamma), length(ns)]);
 train_errors = zeros([length(costs), length(gamma), length(ns)]);
 
-
 for n_idx = 1:length(ns)
     n = ns(n_idx);
+    [ all_set, all_labels, all_maxes, all_means ] = series2features( prices, n, 1);
 
-    m = length(prices)-n-test_num;  %number of training instances
+    m = size(all_set,1) - test_num;  %number of training instances
     start_index = 1;
-    end_index = length(prices)-n;
+    end_index = size(all_set,1);
 
     train_range = start_index:m;
     test_range = m+1:end_index;
-    [ all_set, all_labels, all_maxes, all_means ] = series2features( prices, n );
     offset_pred_label = all_set(:,end) .* all_maxes + all_means;
 for g_idx = 1:length(gamma)
 for c_idx= 1:length(costs)
@@ -70,9 +74,9 @@ for c_idx= 1:length(costs)
     subplot(2,1,1);
     hold on;
     plot(test_range, test_labels);
-    plot(test_range, test_pred_labels);
+    plot(test_range-1+d, test_pred_labels);
     plot(train_range, train_labels);
-    plot(train_range, train_pred_labels);
+    plot(train_range-1+d, train_pred_labels);
     plot(all_set(:,end));
     legend('actual test', 'prediction test', 'actual train', 'prediction train', 'offset label');
     title(sprintf('normalized, %s, n=%d',s,n));
@@ -80,9 +84,9 @@ for c_idx= 1:length(costs)
     subplot(2,1,2); 
     hold on;
     plot(test_range, usd_test_labels);
-    plot(test_range, usd_test_pred_labels);
+    plot(test_range-1+d, usd_test_pred_labels);
     plot(train_range, usd_train_labels);
-    plot(train_range, usd_train_pred_labels);
+    plot(train_range-1+d, usd_train_pred_labels);
     plot(all_means);
     plot(offset_pred_label);
     legend('actual test', 'prediction test', 'actual train', 'prediction train', 'means', 'offset label');
