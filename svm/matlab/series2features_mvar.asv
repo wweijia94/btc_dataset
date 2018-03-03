@@ -1,0 +1,21 @@
+function [ instances, labels, maxes, means ] = series2features_mvar(x, n, d )
+%UNTITLED7 Summary of this function goes here
+%   n = number of features per instance
+%   d = prediction distance. default is 1
+switch nargin
+    case 3
+    case 2
+        d = 1;
+end
+
+all_set = zeros(size(x,2)*size(x,1),n);
+all_labels = cell(1,size(x,2));
+all_maxes = cell(1,size(x,2));
+all_means = cell(1,size(x,2));
+for j = 1:size(x,2)
+    [all_set(j:(j+size(x,1)),:), all_labels{j}, all_maxes{j}, all_means{j} ] = series2features( x(:,j), n, d);
+end
+
+instances = reshape(all_set, size(x,1), [])
+
+end
