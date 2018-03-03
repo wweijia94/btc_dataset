@@ -54,4 +54,4 @@ plot(pred_labels*max_x + mean_x);
 legend('actual', 'prediction');
 error = sum(((test_labels*max_x + mean_x)-(pred_labels*max_x + mean_x)).^2)/test_num
 
-
+offset_pred_label = 
