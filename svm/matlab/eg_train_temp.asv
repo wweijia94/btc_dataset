@@ -25,9 +25,8 @@ ns = [2 3 10 30 100];    %number of features
 %ns = 2;
 %ns = [3 30 100];
 % ns = [100];
-%ttr = .2;
-%test_num = round(size(prices,1)*ttr); %test set size
-test_num = 1000;
+ttr = .2;
+test_num = round(size(prices,1)*ttr); %test set size
 costs = [ 0.1 1 10];
 %costs = [ 1 ];
 
@@ -38,12 +37,12 @@ test_errors = zeros([length(costs), length(gamma), length(ns)]);
 train_errors = zeros([length(costs), length(gamma), length(ns)]);
 d = 1;
 
-predInd = 1;
-inputs = [1];
+predInd = 2;
+inputs = [1 2];
 
 for n_idx = 1:length(ns)
     n = ns(n_idx);
-    [all_set, all_labels, all_maxes, all_means] = series2features_mvar(prices, n, 1,inputs, predInd);
+    [all_set, all_labels, all_maxes, all_means, offset_pred_] = series2features_mvar(prices, n, 1,inputs, predInd);
 
     m = size(all_set,1) - test_num;  %number of training instances
     start_index = 1;
@@ -51,7 +50,7 @@ for n_idx = 1:length(ns)
 
     train_range = start_index:m;
     test_range = m+1:end_index;
-    
+    offset_pred_label = all_set(:,predInd*(n+1)) .* all_maxes + all_means;
 for g_idx = 1:length(gamma)
 for c_idx= 1:length(costs)
     g = 1/n * gamma(g_idx);
