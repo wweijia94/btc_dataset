@@ -19,19 +19,19 @@ for n_idx = 1:length(ns)
     n = ns(n_idx);
     figure();
     subplot(2,1,1);
-    contourf(costs, gamma, squeeze(test_errors(:,:,n_idx))')
+    contourf(costs(2:8), gamma(7:12), log(squeeze(test_errors(2:8,7:12,n_idx))'))
     set(gca,'XScale','log')
     
 %     figure();
 %     surf(costs, gamma, sqrt(squeeze(test_errors(:,:,n_idx)))')
     set(gca,'XScale','log','YScale','log')
     xlabel('C'); ylabel('gamma \times n');
-    title(sprintf('Test set RMSE, N=%d',n));
+    title(sprintf('Log Test Set RMSE, N=%d',n));
     colorbar;
     
     subplot(2,1,2);
     
-    contourf(costs, gamma, squeeze(avg_val_errors(:,:,n_idx))')
+    contourf(costs(2:8), gamma(7:12), log(squeeze(avg_val_errors(2:8,7:12,n_idx))'))
 %     set(gca,'XScale','log')
     
     
@@ -39,6 +39,6 @@ for n_idx = 1:length(ns)
 %     surf(costs, gamma, sqrt(squeeze(test_errors(:,:,n_idx)))')
     set(gca,'XScale','log','YScale','log')
     xlabel('C'); ylabel('gamma \times n');
-    title(sprintf('Average Validation Set RMSE, N=%d',n));
+    title(sprintf('Log Cross Validation RMSE, N=%d',n));
     colorbar;
 end
