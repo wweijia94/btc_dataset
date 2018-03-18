@@ -114,7 +114,7 @@ for c_idx= 1:length(costs)
         %train_error = sum(((usd_train_labels-usd_train_pred_labels)) .^2)/length(train_range);
         cross_errors(c_idx, g_idx, n_idx, k_idx) = test_error;
 
-        fprintf(sprintf('test_err=%3e\ttrain_err=%3e\tn=%d\ts=%s\n\n\n',test_error,train_error,n,s));
+%         fprintf(sprintf('test_err=%3e\ttrain_err=%3e\tn=%d\ts=%s\n\n\n',test_error,train_error,n,s));
     end%end of k_idx, done with cross validation
 
 

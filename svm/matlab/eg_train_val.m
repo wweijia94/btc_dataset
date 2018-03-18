@@ -27,15 +27,15 @@ prices = [btcprices,ethprices];
 % ns = [2 3 10 30 100];    %number of features
 %ns = 2;
 % ns = [2 3 5 8 12 16 20 25 30 35 40 45 50 60 70 80 100];
-ns = [3 6 10 20 30 50];
+ns = [3 6 8 10 13 20 30 50];
 %ttr = .2;
 %test_num = round(size(prices,1)*ttr); %test set size
 test_num = 1000;
 % costs = [ 0.001 0.01 0.1 1 10 100 1000];
-costs = [ 1 2 5 10 20 50 100 ];
+costs = [ 1e-3 5e-3 1e-2 5e-2 1e-1 2e-1 5e-1 1 2 5 10 20 50 100 500 1e3 ];
 
 % gamma = [ 0.001 0.01 0.1 1 10 100 1000];
-gamma = [ 1e-2 3e-2 1e-1 3e-1 1e0 3e0 1e1 3e1 1e2];
+gamma = [ 1e-3 5e-3 1e-2 3e-2 1e-1 3e-1 1e0 3e0 1e1 3e1 1e2 1e3];
 
 num_val = 5;
 

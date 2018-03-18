@@ -26,16 +26,16 @@ prices = [btcprices,ethprices];
 
 % ns = [2 3 10 30 100];    %number of features
 %ns = 2;
-ns = [3 100];
-% ns = [100];
+% ns = [2 3 5 8 12 16 20 25 30 35 40 45 50 60 70 80 100];
+ns = [3 10 100];
 %ttr = .2;
 %test_num = round(size(prices,1)*ttr); %test set size
 test_num = 1000;
-costs = [ 0.1 1 10];
-%costs = [ 1 ];
+% costs = [ 0.001 0.01 0.1 1 10 100 1000];
+costs = [ 1 ];
 
-gamma = [  0.1 1 10];
-%gamma = [ 1 ];
+% gamma = [ 0.001 0.01 0.1 1 10 100 1000];
+gamma = [ 1 ];
 
 test_errors = zeros([length(costs), length(gamma), length(ns)]);
 train_errors = zeros([length(costs), length(gamma), length(ns)]);
@@ -81,27 +81,27 @@ for c_idx= 1:length(costs)
     usd_test_pred_labels = (test_pred_labels.* all_maxes + all_means(test_range)); 
     usd_train_pred_labels = (train_pred_labels.* all_maxes + all_means(train_range)); 
 
-%     fig_count = fig_count +1;   figure(fig_count);    clf;
-%     subplot(2,1,1);
-%     hold on;
-%     plot(test_range, test_labels);
-%     plot(test_range-1+d, test_pred_labels);
-%     plot(train_range, train_labels);
-%     plot(train_range-1+d, train_pred_labels);
-%     plot(all_set(:,end));
-%     legend('actual test', 'prediction test', 'actual train', 'prediction train', 'offset');
-%     title(sprintf('normalized, %s, n=%d',s,n));
-% 
-%     subplot(2,1,2); 
-%     hold on;
-%     plot(test_range, usd_test_labels);
-%     plot(test_range-1+d, usd_test_pred_labels);
-%     plot(train_range, usd_train_labels);
-%     plot(train_range-1+d, usd_train_pred_labels);
-%     plot(all_means);
-%    %plot(offset_pred_label);
-%     legend('actual test', 'prediction test', 'actual train', 'prediction train', 'means');
-%     title(sprintf('usd, %s, n=%d',s,n));
+    fig_count = fig_count +1;   figure(fig_count);    clf;
+    subplot(2,1,1);
+    hold on;
+    plot(test_range, test_labels);
+    plot(test_range-1+d, test_pred_labels);
+    plot(train_range, train_labels);
+    plot(train_range-1+d, train_pred_labels);
+    plot(all_set(:,end));
+    legend('actual test', 'prediction test', 'actual train', 'prediction train', 'offset');
+    title(sprintf('normalized, %s, n=%d',s,n));
+
+    subplot(2,1,2); 
+    hold on;
+    plot(test_range, usd_test_labels);
+    plot(test_range-1+d, usd_test_pred_labels);
+    plot(train_range, usd_train_labels);
+    plot(train_range-1+d, usd_train_pred_labels);
+    plot(all_means);
+   %plot(offset_pred_label);
+    legend('actual test', 'prediction test', 'actual train', 'prediction train', 'means');
+    title(sprintf('usd, %s, n=%d',s,n));
 
     test_error = sum(((usd_test_labels-usd_test_pred_labels)) .^2)/test_num ;
     train_error = sum(((usd_train_labels-usd_train_pred_labels)) .^2)/length(train_range);

@@ -24,7 +24,7 @@ for n_idx = 1:length(ns)
     
 %     figure();
 %     surf(costs, gamma, sqrt(squeeze(test_errors(:,:,n_idx)))')
-%     set(gca,'XScale','log','YScale','log')
+    set(gca,'XScale','log','YScale','log')
     xlabel('C'); ylabel('gamma \times n');
     title(sprintf('Test set RMSE, N=%d',n));
     colorbar;
@@ -32,11 +32,12 @@ for n_idx = 1:length(ns)
     subplot(2,1,2);
     
     contourf(costs, gamma, squeeze(avg_val_errors(:,:,n_idx))')
-    set(gca,'XScale','log')
+%     set(gca,'XScale','log')
+    
     
 %     figure();
 %     surf(costs, gamma, sqrt(squeeze(test_errors(:,:,n_idx)))')
-%     set(gca,'XScale','log','YScale','log')
+    set(gca,'XScale','log','YScale','log')
     xlabel('C'); ylabel('gamma \times n');
     title(sprintf('Average Validation Set RMSE, N=%d',n));
     colorbar;
