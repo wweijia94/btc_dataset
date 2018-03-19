@@ -27,7 +27,7 @@ prices = [btcprices,ethprices];
 % ns = [2 3 10 30 100];    %number of features
 %ns = 2;
 % ns = [2 3 5 8 12 16 20 25 30 35 40 45 50 60 70 80 100];
-ns = [3 6 8 10 13 20 30 50];
+ns = [3 6 10 15 18 20 22 25 30 50];
 %ttr = .2;
 %test_num = round(size(prices,1)*ttr); %test set size
 test_num = 1000;
@@ -44,7 +44,7 @@ val_errors = zeros([length(costs), length(gamma), length(ns), num_val]);
 train_errors = zeros([length(costs), length(gamma), length(ns)]);
 d = 1;
 
-predInd = 1;
+predInd = 2;
 inputs = [1];
 
 for n_idx = 1:length(ns)
