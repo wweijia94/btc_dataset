@@ -1,0 +1,28 @@
+minimax_test_errors = zeros(1,length(ns));
+minmean_test_errors= zeros(1,length(ns));
+
+for n_idx = 1:length(ns)
+
+    [~, g_idx] = min(min(max(val_errors(:,:,n_idx,:),[],4)))
+    [~, c_idx] = min(min(max(val_errors(:,g_idx,n_idx,:),[],4)))
+    minimax_test_errors(c_idx, g_idx, n_idx) = test_errors(c_idx, g_idx, n_idx);
+
+    [~, g_idx] = min(min(max(avg_val_errors(:,:,n_idx,:),4)))
+    [~, c_idx] = min(min(max(avg_val_errors(:,g_idx,n_idx,:),4)))
+    minmean_test_errors(c_idx, g_idx, n_idx) = test_errors(c_idx, g_idx, n_idx);
+end
+
+figure();
+subplot(2,1,1); hold on;
+plot(ns, minimax_test_errors);
+
+yyaxis;
+plot(ns,squeeze(min(min(max(val_errors(:,:,:,:),[],4)))));
+
+
+
+subplot(2,1,2); hold on;
+plot(ns, minimax_test_errors);
+
+yyaxis;
+plot(ns,squeeze(min(min(avg_val_errors(:,:,:)))));

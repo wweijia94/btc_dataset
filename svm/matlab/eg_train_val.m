@@ -84,18 +84,18 @@ for n_idx = 1:length(ns)
                 
                 val_errors(c_idx,g_idx,n_idx,v_idx) = sqrt(val_error);
             end
-            train_set = all_set(train_range,:);
-            train_labels = all_labels(train_range);
-            
-            test_set = all_set(test_range,:);
-            test_labels = all_labels(test_range);
-            
-            [test_pred_labels, test_accuracy, test_prob_estimates] = libsvmpredict(test_labels, test_set, svm_model);
-            %[train_pred_labels, train_accuracy, train_prob_estimates] = libsvmpredict(train_labels, train_set, svm_model);
-            
-            usd_test_labels = (test_labels.* all_maxes + all_means(test_range));
-            %usd_train_labels = (train_labels.* all_maxes + all_means(train_range));
-            usd_test_pred_labels = (test_pred_labels.* all_maxes + all_means(test_range));
+%             train_set = all_set(train_range,:);
+%             train_labels = all_labels(train_range);
+%             
+%             test_set = all_set(test_range,:);
+%             test_labels = all_labels(test_range);
+%             
+%             [test_pred_labels, test_accuracy, test_prob_estimates] = libsvmpredict(test_labels, test_set, svm_model);
+%             %[train_pred_labels, train_accuracy, train_prob_estimates] = libsvmpredict(train_labels, train_set, svm_model);
+%             
+%             usd_test_labels = (test_labels.* all_maxes + all_means(test_range));
+%             %usd_train_labels = (train_labels.* all_maxes + all_means(train_range));
+%             usd_test_pred_labels = (test_pred_labels.* all_maxes + all_means(test_range));
             %usd_train_pred_labels = (train_pred_labels.* all_maxes + all_means(train_range));
             
             %    fig_count = fig_count +1;   figure(fig_count);    clf;
@@ -120,10 +120,10 @@ for n_idx = 1:length(ns)
             %    legend('actual test', 'prediction test', 'actual train', 'prediction train', 'means');
             %    title(sprintf('usd, %s, n=%d',s,n));
             
-            test_error = sum(((usd_test_labels-usd_test_pred_labels)) .^2)/test_num ;
+%             test_error = sum(((usd_test_labels-usd_test_pred_labels)) .^2)/test_num ;
             %train_error = sum(((usd_train_labels-usd_train_pred_labels)) .^2)/length(train_range);
             
-            test_errors(c_idx, g_idx, n_idx) = sqrt(test_error);
+%             test_errors(c_idx, g_idx, n_idx) = sqrt(test_error);
             %train_errors(c_idx, g_idx, n_idx) = train_error;
             %fprintf(sprintf('test_err=%3e\ttrain_err=%3e\tn=%d\ts=%s\n\n\n',test_error,train_error,n,s));
         end
@@ -154,19 +154,19 @@ fprintf(sprintf('predInd=%d,\td=%d\n',predInd,d));
 fprintf('inputs:')
 disp(inputs);
 
-fprintf('valRMSE,\ttestRMSE,\tn,\tg_p,\tC,\tparams\n');
-for c_idx= 1:length(costs)
-    for g_idx = 1:length(gamma)
-        for n_idx = 1:length(ns)
-            n = ns(n_idx);
-            g = 1/n * gamma(g_idx);
-            c = costs(c_idx);
-            s = sprintf('-s 3 -t 2 -g %d -c %d', g, c);
-            
-            test_error = test_errors(c_idx, g_idx, n_idx);
-            train_error = train_errors(c_idx, g_idx, n_idx);
-            val_error = avg_val_errors(c_idx, g_idx, n_idx);
-            fprintf(sprintf('%f,\t%f,\t%d,\t%f,\t%f,\t%s\n', val_error, test_error,n,gamma(g_idx),c,s));
-        end
-    end
-end
+% fprintf('valRMSE,\ttestRMSE,\tn,\tg_p,\tC,\tparams\n');
+% for c_idx= 1:length(costs)
+%     for g_idx = 1:length(gamma)
+%         for n_idx = 1:length(ns)
+%             n = ns(n_idx);
+%             g = 1/n * gamma(g_idx);
+%             c = costs(c_idx);
+%             s = sprintf('-s 3 -t 2 -g %d -c %d', g, c);
+%             
+%             test_error = test_errors(c_idx, g_idx, n_idx);
+%             train_error = train_errors(c_idx, g_idx, n_idx);
+%             val_error = avg_val_errors(c_idx, g_idx, n_idx);
+%             fprintf(sprintf('%f,\t%f,\t%d,\t%f,\t%f,\t%s\n', val_error, test_error,n,gamma(g_idx),c,s));
+%         end
+%     end
+% end

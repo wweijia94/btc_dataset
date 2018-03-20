@@ -8,21 +8,21 @@
 % clear all
 fig_count = 0;
 
-% btc_filename = 'Gdax_BTCUSD_1h_new.csv';
-% eth_filename = 'Gdax_ETHUSD_1h_new.csv';
-% 
-% btcraw_prices = csvread(btc_filename, 2, 2);
-% btclow_prices = btcraw_prices(:,3);
-% btchigh_prices = btcraw_prices(:,2);
-% btcavg_prices = (btclow_prices + btchigh_prices)/2;
-% btcprices = btcavg_prices(2:end,1) - btcavg_prices(1:end-1,1);
-% 
-% ethraw_prices = csvread(eth_filename, 2, 2);
-% ethlow_prices = ethraw_prices(:,3);
-% ethhigh_prices = ethraw_prices(:,2);
-% ethavg_prices = (ethlow_prices + ethhigh_prices)/2;
-% ethprices = ethavg_prices(2:end,1) - ethavg_prices(1:end-1,1);
-% prices = [btcprices,ethprices];
+btc_filename = 'Gdax_BTCUSD_1h_new.csv';
+eth_filename = 'Gdax_ETHUSD_1h_new.csv';
+
+btcraw_prices = csvread(btc_filename, 2, 2);
+btclow_prices = btcraw_prices(:,3);
+btchigh_prices = btcraw_prices(:,2);
+btcavg_prices = (btclow_prices + btchigh_prices)/2;
+btcprices = btcavg_prices(2:end,1) - btcavg_prices(1:end-1,1);
+
+ethraw_prices = csvread(eth_filename, 2, 2);
+ethlow_prices = ethraw_prices(:,3);
+ethhigh_prices = ethraw_prices(:,2);
+ethavg_prices = (ethlow_prices + ethhigh_prices)/2;
+ethprices = ethavg_prices(2:end,1) - ethavg_prices(1:end-1,1);
+prices = [btcprices,ethprices];
 
 % ns = [2 3 10 30 100];    %number of features
 %ns = 2;
@@ -41,12 +41,12 @@ test_errors = zeros([length(costs), length(gamma), length(ns)]);
 % train_errors = zeros([length(costs), length(gamma), length(ns)]);
 d = 1;
 
-% predInd = 1;
-% inputs = [1];
+predInd = 1;
+inputs = [1];
 
 for n_idx = 1:length(ns)
     n = ns(n_idx);
-%     [all_set, all_labels, all_maxes, all_means] = series2features_mvar(prices, n, 1,inputs, predInd);
+    [all_set, all_labels, all_maxes, all_means] = series2features_mvar(prices, n, 1,inputs, predInd);
     
     for g_idx = 1:length(gamma)
         for c_idx= 1:length(costs)
